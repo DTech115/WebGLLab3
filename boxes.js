@@ -192,8 +192,9 @@ function render() {
 
 	var viewMatrix = lookAt(eye, at, up);
 	// modelViewMatrix = translate(0, 0, -10);
-	var sceneRotation = rotate(90, 90, 1, 0);
+	var sceneRotation = rotate(90, 1, 0, 0);
 
+	// scene matrix to enable rotation
 	var sceneMatrix = mult(viewMatrix, sceneRotation);
 
 	// axes to start with

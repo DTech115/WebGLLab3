@@ -9,3 +9,5 @@ The axis lines disappear completely because now the geometry is on/behind the ca
 The screen is flattened a little bit & appears stretched out instead of symmetric.
 ### B.
 The screen is stretched vertically & loses its symmetry.
+## 10. Top View. If you wanted to keep the X-axis and Y-axis in their original orientation while still seeing the tops of the cubes, how would you change your code?
+Instead of replacing x & y with 90 in rotation, I'd 
