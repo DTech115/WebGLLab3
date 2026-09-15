@@ -13,8 +13,8 @@ var shapes = {
 };
 
 //Variables for Transformation Matrices
-var mv = new mat4();
-var p  = new mat4();
+var modelViewMatrix = new mat4();
+var projectionMatrix = new mat4();
 var mvLoc, projLoc;
 
 //Model state variables
@@ -189,10 +189,24 @@ function render() {
 	var at =  vec3(0.0, 0.0, 0.0);
 	var up =  vec3(0.0, 1.0, 0.0);
 
-	modelViewMatrix = lookAt(eye,at,up);
+	var viewMatrix = lookAt(eye, at, up);
 	// modelViewMatrix = translate(0, 0, -10);
-    gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
+
+	gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(viewMatrix) );
+	gl.drawArrays(shapes.axes.type, shapes.axes.start, shapes.axes.size);		
+
+	// C U B E
+	modelViewMatrix = mult(viewMatrix, translate(1, 0, 0));
+	gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
+	gl.drawArrays(shapes.wireCube.type, shapes.wireCube.start, shapes.wireCube.size);
+
+	modelViewMatrix = mult(
+		mult(viewMatrix, translate(-1, 0, 0)),
+		rotate(45, 0, 1, 0)
+	);
 	
-	gl.drawArrays(shapes.axes.type, shapes.axes.start, shapes.axes.size);	
+	gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
+	gl.drawArrays(shapes.solidCube.type, shapes.solidCube.start, shapes.solidCube.size);
+	
     requestAnimationFrame(render);
 }
