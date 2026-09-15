@@ -18,7 +18,7 @@ var projectionMatrix  = mat4();
 var modelViewMatrixLoc, projectionMatrixLoc;
 
 //Model state variables
-var shoulder = 0, elbow = 0;
+var shoulder = 0, elbow = 0, wrist = 0;
 
 
 //----------------------------------------------------------------------------
@@ -230,7 +230,7 @@ function render() {
 	
 		//Position Shoulder Joint
 		modelViewMatrix = mult(modelViewMatrix,translate(-2.0, 0.0, 0.0));
-		//Shoulder Joint
+      //Shoulder Joint
 		modelViewMatrix = mult(modelViewMatrix,rotate(shoulder, vec3(0,0,1)));
 		//Position Upper Arm Cube
 		modelViewMatrix = mult(modelViewMatrix,translate(1.0, 0.0, 0.0));
@@ -242,7 +242,6 @@ function render() {
 		//Undo Scale
 		modelViewMatrix = matStack.pop();
 
-	
 		//Position Elbow Joint
 		modelViewMatrix = mult(modelViewMatrix, translate(1.0, 0.0, 0.0));
 		//Elbow Joint
@@ -256,6 +255,16 @@ function render() {
 			gl.drawArrays(armShape.type, armShape.start, armShape.size);
 		//Undo Scale
 		modelViewMatrix = matStack.pop();
+
+      modelViewMatrix = mult(modelViewMatrix, translate(1.0, 0.0, 0.0));
+      modelViewMatrix = mult(modelViewMatrix, rotate(wrist, vec3(0, 0, 1)));
+      modelViewMatrix = mult(modelViewMatrix, translate(0.5, 0.0, 0.0));
+      matStack.push(modelViewMatrix);
+         modelViewMatrix = mult(modelViewMatrix, scalem(1.0, 0.4, 1.0));
+         gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix));
+         gl.drawArrays(armShape.type, armShape.start, armShape.size);
+      modelViewMatrix = matStack.pop();
+
 
     //Restore modelViewMatrix to initial state
 	modelViewMatrix = matStack.pop();
