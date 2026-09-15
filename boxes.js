@@ -170,7 +170,8 @@ window.onload = function init() {
 
 
 	//Set up projection matrix
-	projectionMatrix=perspective(45.0, 1.0, 0.1, 100.0);
+	// projectionMatrix=ortho(45.0, 1.0, 0.1, 100.0);
+	projectionMatrix=ortho(-2, 2, -2, 2, -100, 100);
 	gl.uniformMatrix4fv( projectionMatrixLoc, false, flatten(projectionMatrix) );
 
     render();
@@ -201,10 +202,10 @@ function render() {
 	gl.drawArrays(shapes.wireCube.type, shapes.wireCube.start, shapes.wireCube.size);
 
 	modelViewMatrix = mult(
-		mult(viewMatrix, translate(-1, 0, 0)),
+		mult(viewMatrix, translate(1, 1, 0)),
 		rotate(45, 0, 1, 0)
 	);
-	
+
 	gl.uniformMatrix4fv( modelViewMatrixLoc, false, flatten(modelViewMatrix) );
 	gl.drawArrays(shapes.solidCube.type, shapes.solidCube.start, shapes.solidCube.size);
 	
